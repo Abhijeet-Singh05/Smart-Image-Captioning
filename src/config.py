@@ -8,6 +8,7 @@ load_dotenv()
 class Config():
     # we use .get() to get values from .env file it returns none if empty
     PORT = os.getenv("PORT")
+    DB_NAME = "captionDB"
     MONGO_URI = os.getenv("MONGO_URI")
 
 
