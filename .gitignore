@@ -2,3 +2,4 @@
 
 .venv
 .env
+check_model.py

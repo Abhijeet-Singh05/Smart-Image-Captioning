@@ -4,6 +4,8 @@ from src.services.cloud_service import upload_to_cloud
 from src.models.post_model import PostModel
 from src.utils.api_response import apiResponse
 from src.utils.api_error import apiError
+from src.services.ai_service import generate_caption
+
 
 async def create_smart_post(file: UploadFile):
     """
@@ -25,10 +27,15 @@ async def create_smart_post(file: UploadFile):
     # UPLOAD on cloudinary
     cloud_data = upload_to_cloud(file_content)
 
+    # CALL AI
+    ai_data = await generate_caption(file_content,file.content_type)
+    
     # MODEL
     new_post = PostModel(
         imageUrl=cloud_data["secure_url"],
         publicId=cloud_data["public_id"],
+        caption= ai_data["caption"],
+        hashtags= ai_data["hashtags"]
     )
 
     # Save to mongoDB
